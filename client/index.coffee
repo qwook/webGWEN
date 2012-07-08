@@ -24,7 +24,7 @@ $(document)
 
 
 $gwen = (classname)->
-    $("<div class='gwen #{classname}'><div>")
+    $("<div class='gwen #{classname}'></div>")
 
 elempos = (elem)->
 
@@ -50,9 +50,10 @@ $.fn.GwenFrame = (options) ->
         $this = $(this)
 
         content = $("<div class='content'></div>")
+        title = $("<div class='title'></div>")
         frame = $gwen("frame")
-            .append(content)
-            .append($gwen("top-bg"))
+            .append(title)
+            .append($gwen("top-bg").append(title))
             .append($gwen("bottom-bg"))
             .append($gwen("left-bg"))
             .append($gwen("right-bg"))
@@ -66,6 +67,7 @@ $.fn.GwenFrame = (options) ->
             .append($("<div class='bottom-left-bg'></div>"))
             .append($("<div class='bottom-right-bg'></div>"))
             .append($("<div class='center-bg'></div>"))
+            .append(content)
             .css
                 top: settings.y,
                 left: settings.x,
@@ -73,42 +75,45 @@ $.fn.GwenFrame = (options) ->
                 height: settings.height,
                 'margin-right': -settings.width
                 'margin-bottom': -settings.height
-            .insertAfter($this)
-            .append($this)
+            .appendTo($this.parent())
+
+        title.text($this.attr("title"))
 
         frame.mousedown (e) ->
-            $this = $(this)
-            $this.parent().append($this)
-            offset = $this.offset()
-            x = e.pageX - offset.left
-            y = e.pageY - offset.top
-            height = $this.height()
-            width = $this.width()
+            $(".gwen").removeClass("active")
+            frame.addClass("active")
+            if e.which = 1
+                $this = $(this)
+                $this.parent().append($this)
+                offset = $this.offset()
+                x = e.pageX - offset.left
+                y = e.pageY - offset.top
+                height = $this.height()
+                width = $this.width()
+                console.log e
 
-            if y <= 25
-                gwen.type = 1
-                gwen.currentframe = frame
-                position = frame.position()
-                gwen.startfx = position.left
-                gwen.startfy = position.top
-                gwen.startcx = e.pageX
-                gwen.startcy = e.pageY
+                if y <= 25
+                    gwen.type = 1
+                    gwen.currentframe = frame
+                    gwen.startfx = parseInt($this.css("left"), 10)
+                    gwen.startfy = parseInt($this.css("top"), 10)
+                    gwen.startcx = e.pageX
+                    gwen.startcy = e.pageY
 
-            if y >= height - 10 && x >= width - 10
-                gwen.type = 2
-                gwen.currentframe = frame
-                position = frame.position()
-                gwen.startfx = width
-                gwen.startfy = height
-                gwen.startcx = e.pageX
-                gwen.startcy = e.pageY
+                if y >= height - 10 && x >= width - 10
+                    gwen.type = 2
+                    gwen.currentframe = frame
+                    position = frame.position()
+                    gwen.startfx = width
+                    gwen.startfy = height
+                    gwen.startcx = e.pageX
+                    gwen.startcy = e.pageY
 
-            return false
+                return false
             
-        this.content = content
+        content.append($(this))
         
     this.each ->
-        this.content.append($(this))
 
 $(".gwenframe").GwenFrame
     'x': 5,

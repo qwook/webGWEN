@@ -126,6 +126,13 @@ body
         background-position: 1% 0px;
         background-size: 428% 512px;
         cursor: move;
+        .title
+        {
+            margin: 5px;
+            font-size: 12px;
+            font-family: arial, sans-serif;
+            color: black;
+        }
     }
     .bottom-bg
     {
@@ -175,5 +182,30 @@ body
     .content
     {
         .anchor(0, 0, 0, 0, auto, auto);
+        h12
+        {
+            .anchor(5px, none, 5px, none, auto, auto);
+            font-family: arial, sans-serif;
+            color: black;
+        }
     }
 }
+
+.gwen.active
+{
+    &.frame
+    {
+        .top-bg
+            .title
+            {
+                color: white;
+            }
+        .content
+            .top-bg
+                .title
+                {
+                    color: black;
+                }
+    }
+}
+
