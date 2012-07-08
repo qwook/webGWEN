@@ -1,6 +1,7 @@
 
 gwen =
     currentframe: null
+    type: 0
     startfx: 0
     startfy: 0
     startcx: 0
@@ -9,9 +10,14 @@ gwen =
 $(document)
     .mousemove (e) ->
         if gwen.currentframe?
-            gwen.currentframe.css
-                top: e.pageY - gwen.startcy + gwen.startfy
-                left: e.pageX - gwen.startcx + gwen.startfx
+            if gwen.type == 1
+                gwen.currentframe.css
+                    top: e.pageY - gwen.startcy + gwen.startfy
+                    left: e.pageX - gwen.startcx + gwen.startfx
+            else
+                gwen.currentframe.css
+                    height: e.pageY - gwen.startcy + gwen.startfy
+                    width: e.pageX - gwen.startcx + gwen.startfx
     .mouseup (e) ->
         if gwen.currentframe?
             gwen.currentframe = null
@@ -76,22 +82,28 @@ $.fn.GwenFrame = (options) ->
             offset = $this.offset()
             x = e.pageX - offset.left
             y = e.pageY - offset.top
-            size = $this.size()
-            if y > size.height - 5 && x > size.width - 5
-                gwen.currentframe = frame
-                position = frame.position()
-                gwen.startfx = position.left
-                gwen.startfy = position.top
-                gwen.startcx = e.pageX
-                gwen.startcy = e.pageY
+            height = $this.height()
+            width = $this.width()
+
             if y <= 25
+                gwen.type = 1
                 gwen.currentframe = frame
                 position = frame.position()
                 gwen.startfx = position.left
                 gwen.startfy = position.top
                 gwen.startcx = e.pageX
                 gwen.startcy = e.pageY
-            false
+                return false
+
+            if y >= height - 10 && x >= width - 10
+                gwen.type = 2
+                gwen.currentframe = frame
+                position = frame.position()
+                gwen.startfx = width
+                gwen.startfy = height
+                gwen.startcx = e.pageX
+                gwen.startcy = e.pageY
+                return false
             
         this.content = content
         
