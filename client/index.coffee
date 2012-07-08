@@ -51,6 +51,7 @@ $.fn.GwenFrame = (options) ->
 
         content = $("<div class='content'></div>")
         frame = $gwen("frame")
+            .append(content)
             .append($gwen("top-bg"))
             .append($gwen("bottom-bg"))
             .append($gwen("left-bg"))
@@ -65,7 +66,6 @@ $.fn.GwenFrame = (options) ->
             .append($("<div class='bottom-left-bg'></div>"))
             .append($("<div class='bottom-right-bg'></div>"))
             .append($("<div class='center-bg'></div>"))
-            .append(content)
             .css
                 top: settings.y,
                 left: settings.x,
@@ -93,7 +93,6 @@ $.fn.GwenFrame = (options) ->
                 gwen.startfy = position.top
                 gwen.startcx = e.pageX
                 gwen.startcy = e.pageY
-                return false
 
             if y >= height - 10 && x >= width - 10
                 gwen.type = 2
@@ -103,7 +102,8 @@ $.fn.GwenFrame = (options) ->
                 gwen.startfy = height
                 gwen.startcx = e.pageX
                 gwen.startcy = e.pageY
-                return false
+
+            return false
             
         this.content = content
         
