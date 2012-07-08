@@ -20,6 +20,10 @@ $(document)
 $gwen = (classname)->
     $("<div class='gwen #{classname}'><div>")
 
+elempos = (elem)->
+
+    elem
+
 $.fn.moveTo = (selector)->
     return this.each ->
         cl = $(this).clone()
