@@ -1,0 +1,21 @@
+
+directory outDir = "./out/"
+
+file outDir + "index.html" => "client/home_tpl.jade" do
+    sh "jade < 'client/home_tpl.jade' > #{outDir}index.html"
+end
+
+file outDir + "client.js" => "client/index.coffee" do
+    sh "coffee -b -p 'client/index.coffee' > #{outDir}client.js"
+end
+
+#LessFiles = FileList["./*/*.less"]
+#LessFiles.each do |f|
+#    sh "echo #{f}"
+#end
+
+file outDir + "style.css" => "client/default.less" do
+    sh "lessc 'client/default.less' > #{outDir}style.css"
+end
+
+task :default => [outDir + "index.html", outDir + "client.js", outDir + "style.css"]
